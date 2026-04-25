@@ -1,0 +1,55 @@
+global proc PathLocator() {};
+string $installFileInfo = `whatIs PathLocator`;
+string $installerPath = `substring $installFileInfo 25 999`;
+string $pluginDir = `dirname $installerPath`;
+
+string $srcDir = $pluginDir + "/src/";
+string $toolsDir = $srcDir + "/tools/";
+string $assetDir = $pluginDir + "/assets/";
+string $defaultIconName = "default.png";
+
+
+global proc string GetIconPathFromScript(string $scriptName)
+{
+    global string $assetDir;
+    global string $defaultIconName;
+
+    string $iconPath = $assetDir + "controllercolorer.png";
+
+    if (!`filetest -f $iconPath`)
+    {
+        return $assetDir + $defaultIconName;
+    }
+
+    return $iconPath;
+}
+
+
+global proc AddPluginToShelf(string $scriptName, string $label)
+{
+    global string $srcDir;
+    global string $toolsDir;
+
+    string $iconPath = GetIconPathFromScript($scriptName);
+    print ($iconPath + "\n");
+
+    string $addPathCmd = "import sys\n";
+    $addPathCmd += ("if \"" + $srcDir + "\" not in sys.path:\n");
+    $addPathCmd += ("\tsys.path.append(\"" + $srcDir + "\")\n");
+
+    string $command = $addPathCmd + ("exec(open(\"" + $toolsDir + $scriptName + ".py\").read())");
+
+    global string $gShelfTopLevel;
+    string $currentShelf = `tabLayout -q -selectTab $gShelfTopLevel`;
+    setParent $currentShelf;
+
+    shelfButton
+        -c $command
+        -stp "python"
+        -image $iconPath
+        -l $label
+        -iol $label;
+}
+
+
+AddPluginToShelf("controlColorer", "Control Colorer");
