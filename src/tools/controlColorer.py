@@ -20,7 +20,7 @@ class ControlColorer:
         for item in selection:
 
             mc.setAttr(item + ".overrideEnabled", 1) #enables the color override for the selected objects
-            mc.setAttr(item + ".overrideRGBColors", 1) #enables the use of RGB values for the color override
+            mc.setAttr(item + ".overrideRGBColors", 1) #enables the use of RGB values for the color overrid e
 
             mc.setAttr(item + ".overrideColorR", self.controllerColorRGB[0]) #sets the red value of the color override
             mc.setAttr(item + ".overrideColorG", self.controllerColorRGB[1]) #sets the green value of the color override
