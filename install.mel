@@ -52,4 +52,4 @@ global proc AddPluginToShelf(string $scriptName, string $label)
 }
 
 
-AddPluginToShelf("controlColorer", "Control Colorer");
+AddPluginToShelf("controlColorer", "Curve Tools");
